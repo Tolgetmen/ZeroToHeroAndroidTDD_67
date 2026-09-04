@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import androidx.core.view.isGone
+//import androidx.core.view.isGone
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,10 +26,10 @@ class MainActivity : AppCompatActivity() {
 
 
         button.setOnClickListener {
-            if (textView.isGone){
+            if (textView.visibility == View.INVISIBLE){
                 textView.visibility = View.VISIBLE
             }else{
-                textView.visibility = View.GONE
+                textView.visibility = View.INVISIBLE
             }
 
         }
