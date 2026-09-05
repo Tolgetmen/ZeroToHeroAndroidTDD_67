@@ -1,12 +1,15 @@
 package ru.easycode.zerotoheroandroidtdd
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
+    private var state: State = State.Initial
     private lateinit var linearLayout: LinearLayout
     private lateinit var textView: TextView
 
@@ -18,24 +21,45 @@ class MainActivity : AppCompatActivity() {
         textView = findViewById(R.id.titleTextView)
 
         button.setOnClickListener {
+            state = State.Removed
+            state.apply(linearLayout, textView)
             linearLayout.removeView(textView)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        val removeTextView = linearLayout.childCount == 1
-        outState.putBoolean(KEY, removeTextView)
+        outState.putSerializable(KEY, state)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        val removedTextView = savedInstanceState.getBoolean(KEY)
-        if (removedTextView)
-            linearLayout.removeView(textView)
+        state = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+             savedInstanceState.getSerializable(KEY, State::class.java) as State
+        }else{
+            savedInstanceState.getSerializable(KEY) as State
+        }
+        state.apply(linearLayout, textView)
     }
 
     companion object {
-        private const val KEY = "destroyKey"
+        private const val KEY = "key"
     }
 }
+
+interface State : Serializable {
+
+    fun apply(linarLayout: LinearLayout, textView: TextView)
+
+    object Initial : State {
+        override fun apply(linarLayout: LinearLayout, textView: TextView) = Unit
+    }
+
+    object Removed : State {
+        override fun apply(linarLayout: LinearLayout, textView: TextView) {
+            linarLayout.removeView(textView)
+        }
+    }
+}
+
+
