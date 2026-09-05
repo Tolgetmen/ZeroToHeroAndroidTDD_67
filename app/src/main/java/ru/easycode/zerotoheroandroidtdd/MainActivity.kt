@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.view.isInvisible
+
 //import androidx.core.view.isGone
 
 class MainActivity : AppCompatActivity() {
@@ -20,23 +22,27 @@ class MainActivity : AppCompatActivity() {
 
 
         if (savedInstanceState != null) {
-        val saveVisible = savedInstanceState.getInt("key", textView.visibility)
+            val saveVisible = savedInstanceState.getInt(KEY, textView.visibility)
             textView.visibility = saveVisible
         }
 
 
         button.setOnClickListener {
-            if (textView.visibility == View.INVISIBLE){
+            if (textView.isInvisible) {
                 textView.visibility = View.VISIBLE
-            }else{
+            } else {
                 textView.visibility = View.INVISIBLE
             }
 
         }
 
-        savedInstanceState?.let{
-            textView.visibility = it.getInt("key", View.VISIBLE)
+        savedInstanceState?.let {
+            textView.visibility = it.getInt(KEY, View.VISIBLE)
         }
+    }
+
+    companion object {
+        private const val KEY = "visibilityKey"
     }
 
 
@@ -49,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt("key", textView.visibility)
+        outState.putInt(KEY, textView.visibility)
     }
 
     override fun onDestroy() {
