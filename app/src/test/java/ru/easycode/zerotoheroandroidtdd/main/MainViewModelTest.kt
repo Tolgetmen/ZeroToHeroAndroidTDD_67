@@ -3,6 +3,7 @@ package ru.easycode.zerotoheroandroidtdd.main
 import org.junit.Before
 import org.junit.Test
 import ru.easycode.zerotoheroandroidtdd.list.ListScreen
+import kotlin.collections.listOf
 
 class MainViewModelTest {
 

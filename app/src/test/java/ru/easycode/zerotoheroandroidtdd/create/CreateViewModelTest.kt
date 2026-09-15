@@ -10,6 +10,7 @@ import ru.easycode.zerotoheroandroidtdd.list.ListLiveDataWrapper
 import ru.easycode.zerotoheroandroidtdd.main.FakeNavigation
 import ru.easycode.zerotoheroandroidtdd.main.Navigation
 import ru.easycode.zerotoheroandroidtdd.main.Screen
+import kotlin.jvm.java
 
 class CreateViewModelTest {
 
